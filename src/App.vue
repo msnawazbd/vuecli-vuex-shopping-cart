@@ -1,29 +1,52 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <navbar @search="search"></navbar>
+    <section id="main-content" class="mt-5">
+      <div class="container">
+        <div class="row">
+          <inventory @addedNewItem="addCartItem" :items="items"></inventory>
+          <cart @removeItem="removeCartItem" :items="cart"></cart>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+  import Navbar from './components/Navbar'
+  import Inventory from './components/Inventory'
+  import Cart from './components/Cart'
+  import data from './data'
+
+export default {
+  components: {
+    Navbar, Inventory, Cart
+  },
+  data(){
+    return {
+      items: [],
+      cart: []
     }
+  },
+  methods:{
+    addCartItem(item){
+      this.cart.push(item)
+    },
+    removeCartItem(index){
+      this.cart.splice(index, 1)
+    },
+    search(keyword){
+      this.items = data.filter(item => {
+        return item.title.toLowerCase().indexOf(keyword.toLowerCase()) !== -1
+      })
+    }
+  },
+  mounted() {
+    this.items = data
   }
 }
+</script>
+
+<style lang="scss">
+
 </style>
