@@ -4,7 +4,8 @@
     <section id="main-content" class="mt-5">
       <div class="container">
         <div class="row">
-          <inventory @addedNewItem="addCartItem" :items="items"></inventory>
+      <!--<inventory @addedNewItem="addCartItem" :items="items"></inventory>-->
+          <router-view></router-view>
           <cart @removeItem="removeCartItem" :items="cart"></cart>
         </div>
       </div>
@@ -14,13 +15,12 @@
 
 <script>
   import Navbar from './components/Navbar'
-  import Inventory from './components/Inventory'
   import Cart from './components/Cart'
   import data from './data'
 
 export default {
   components: {
-    Navbar, Inventory, Cart
+    Navbar, Cart
   },
   data(){
     return {

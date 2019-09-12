@@ -18,25 +18,36 @@
                 <span class="item-name">Total</span>
                 <span class="item-price float-right">$ {{ totalPrice }}</span>
             </li>
+            <li class="list-group-item  text-center">
+                <button class="btn btn-success btn-sm" @click.prevent="checkout">Checkout</button>
+            </li>
         </ul>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['items'],
         methods: {
             removeToCart(index){
-                this.$emit('removeItem', index)
+                // this.$emit('removeItem', index)
+                this.$store.commit('removeItem', index)
+            },
+            checkout(){
+                if(confirm('Are you sure to checkout ?')){
+                    this.$store.commit('clearCart')
+                }
             }
         },
         computed: {
+            items(){
+                return this.$store.getters.getCart
+            },
             totalPrice(){
                 var total = 0
                 this.items.forEach(item => {
                     total += parseFloat(item.price)
                 })
-                return total
+                return total . toFixed(2)
             }
         }
     }
